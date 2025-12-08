@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans, League_Spartan } from 'next/font/google';
 import './globals.css';
+import SmoothScroll from '@/components/SmoothScroll';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body
         className={`${jakarta.variable} ${spartan.variable} antialiased bg-black text-white`}
       >
+        <SmoothScroll />
         {children}
         <Analytics />
       </body>

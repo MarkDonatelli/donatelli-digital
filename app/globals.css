@@ -4,11 +4,11 @@
    BRAND PALETTE — YOUR SINGLE SOURCE OF TRUTH
 --------------------------------------------------- */
 :root {
-  --primary: #000000;
-  --secondary: #9fa3aa;
-  --tertiary: #f8f9fb;
+  --primary: #f7fafc;
+  --secondary: #4b5563;
+  --tertiary: #0f172a;
   --accent: #2da6a0;
-  --border: #181818;
+  --border: #e2e8f0;
 }
 
 /* ---------------------------------------------------
@@ -29,11 +29,11 @@
   --font-display: var(--font-spartan);
 
   /* Hover states (auto-computed, elegant) */
-  --color-primary-hover: color-mix(in srgb, var(--primary), white 12%);
-  --color-secondary-hover: color-mix(in srgb, var(--secondary), white 12%);
-  --color-tertiary-hover: color-mix(in srgb, var(--tertiary), black 10%);
-  --color-accent-hover: color-mix(in srgb, var(--accent), black 12%);
-  --color-border-hover: color-mix(in srgb, var(--border), white 12%);
+  --color-primary-hover: color-mix(in srgb, var(--primary), black 4%);
+  --color-secondary-hover: color-mix(in srgb, var(--secondary), black 8%);
+  --color-tertiary-hover: color-mix(in srgb, var(--tertiary), white 10%);
+  --color-accent-hover: color-mix(in srgb, var(--accent), black 8%);
+  --color-border-hover: color-mix(in srgb, var(--border), black 6%);
 }
 
 /* ---------------------------------------------------
@@ -41,11 +41,11 @@
 --------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #0a0a0a;
-    --secondary: #b4b7bd;
-    --tertiary: #161616;
+    --primary: #eef2f7;
+    --secondary: #4b5563;
+    --tertiary: #0f172a;
     --accent: #2da6a0;
-    --border: #2b2b2b;
+    --border: #d7dce3;
   }
 }
 
@@ -56,4 +56,28 @@ body {
   background-color: var(--primary);
   color: var(--tertiary);
   font-family: var(--font-sans);
+}
+
+.section-space {
+  padding-block: clamp(3rem, 14vh, 4rem);
+}
+
+html {
+  overflow-y: scroll;
+}
+
+@keyframes floatGlow {
+  0% {
+    transform: translate3d(-12px, 0, 0) scale(1);
+    opacity: 0.18;
+  }
+  100% {
+    transform: translate3d(12px, 10px, 0) scale(1.04);
+    opacity: 0.28;
+  }
+}
+
+::selection {
+  background: rgba(45, 166, 160, 0.16);
+  color: var(--tertiary);
 }
