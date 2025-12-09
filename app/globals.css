@@ -81,3 +81,10 @@ html {
   background: rgba(45, 166, 160, 0.16);
   color: var(--tertiary);
 }
+
+/* Remove mobile tap flash on interactive elements */
+button,
+a,
+[role='button'] {
+  -webkit-tap-highlight-color: transparent;
+}

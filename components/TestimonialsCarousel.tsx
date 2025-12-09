@@ -49,8 +49,6 @@ export default function TestimonialsCarousel() {
         className="bg-accent/50 blur-[160px] rounded-[58%]"
       />
 
-      <Divider />
-
       <div className="max-w-6xl mx-auto px-6 space-y-16">
         <div className="flex items-start justify-between">
           <h2 className="font-display text-[clamp(2rem,4vw,2.7rem)] leading-tight max-w-2xl">
