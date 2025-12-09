@@ -73,14 +73,18 @@ export default function ProcessWalkthrough({
 }: {
   logoDone: boolean;
 }) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start center', 'end center']
   });
 
   return (
-    <section className="relative w-full bg-[#f8faf9] py-48" ref={ref}>
+    <section
+      className="relative w-full bg-[#f8faf9] py-20 md:py-32 lg:py-48"
+      ref={ref}
+    >
+      {/* Glows: only show on md+ so mobile isn&apos;t messy */}
       <GlowLayer
         logoDone={logoDone}
         initial={{ opacity: 0, y: -24 }}
@@ -104,28 +108,24 @@ export default function ProcessWalkthrough({
         initial={{ opacity: 0, y: -24 }}
         animate={{ opacity: 0.9, y: 0 }}
         transition={{ delay: 0.55, duration: 0.8, ease: 'easeOut' }}
-        placementClass="pointer-events-none absolute top-[50%] left-[5%] -translate-x-1/2 -translate-y-1/2 w-[640px] h-[380px]
-"
+        placementClass=" pointer-events-none absolute top-[50%] left-[5%] -translate-x-1/2 -translate-y-1/2 w-[640px] h-[380px]"
         className="bg-accent/30 blur-[140px] rounded-[58%]"
       />
 
-      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-20 px-6">
-        {/* LEFT - pinned titles */}
-        <div className="sticky top-[20vh] h-fit space-y-6">
-          <motion.h2 className="font-display text-[clamp(2.4rem,5vw,3.4rem)] leading-tight">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 px-4 lg:px-6">
+        <div className="space-y-4 lg:space-y-6 lg:sticky lg:top-[20vh] h-fit">
+          <motion.h2 className="font-display text-[clamp(2rem,6vw,3.4rem)] leading-tight">
             How we turn ideas into something real
           </motion.h2>
 
-          <motion.p className="text-neutral-600 max-w-sm leading-relaxed">
+          <motion.p className="text-neutral-600 max-w-md leading-relaxed text-[0.95rem] md:text-base">
             Every project moves through a simple but meaningful process designed
             to reduce friction and create clarity.
           </motion.p>
         </div>
 
-        {/* RIGHT - scroll-driven steps */}
-        <div className="space-y-[6vh]">
+        <div className="space-y-10 lg:space-y-[6vh]">
           {steps.map((step, i) => {
-            // Give each panel its own scroll window
             const start = i / steps.length;
             const end = (i + 1) / steps.length;
 
@@ -140,21 +140,17 @@ export default function ProcessWalkthrough({
 
             return (
               <motion.div
-                key={i}
-                style={{
-                  opacity,
-                  y: translateY
-                }}
-                className="rounded-xl border border-neutral-200 shadow-lg bg-white p-10"
+                key={step.title}
+                style={{ opacity, y: translateY }}
+                className="rounded-xl relative z-5 border border-neutral-200 shadow-lg bg-white p-6 md:p-7 lg:p-10"
               >
-                <h3 className="font-semibold text-[22px] mb-3 text-[#121417]">
+                <h3 className="font-semibold text-[1.2rem] md:text-[1.35rem] mb-3 text-[#121417]">
                   {step.title}
                 </h3>
-                <p className="text-neutral-600 mb-8 max-w-md">
+                <p className="text-neutral-600 mb-6 md:mb-8 max-w-md text-[0.95rem] md:text-base">
                   {step.description}
                 </p>
 
-                {/* Visual representation */}
                 <div className="opacity-90">{step.visual}</div>
               </motion.div>
             );
