@@ -60,9 +60,7 @@ const steps = [
         <div className="h-6 w-24 bg-green-300 rounded" />
         <div className="h-6 w-32 bg-green-300 rounded" />
         <div className="h-6 w-20 bg-green-300 rounded" />
-        <div className="w-full h-28 bg-neutral-300 rounded-lg border border-neutral-400 flex items-center justify-center text-neutral-700 text-sm">
-          Responsive Preview
-        </div>
+        <div className="w-full h-28 bg-neutral-300 rounded-lg border border-neutral-400 flex items-center justify-center text-neutral-700 text-sm"></div>
       </div>
     )
   }
@@ -84,13 +82,12 @@ export default function ProcessWalkthrough({
       className="relative w-full bg-[#f8faf9] py-20 md:py-32 lg:py-48"
       ref={ref}
     >
-      {/* Glows: only show on md+ so mobile isn&apos;t messy */}
       <GlowLayer
         logoDone={logoDone}
         initial={{ opacity: 0, y: -24 }}
         animate={{ opacity: 0.9, y: 0 }}
         transition={{ delay: 0.55, duration: 0.8, ease: 'easeOut' }}
-        placementClass="pointer-events-none absolute -bottom-[180px] left-1/2 -translate-x-1/2 w-[640px] h-[380px]"
+        placementClass="pointer-events-none absolute -bottom-[190px] left-1/2 -translate-x-1/2 w-[640px] h-[380px]"
         className="bg-accent/30 blur-[140px] rounded-[58%]"
       />
 
@@ -108,8 +105,26 @@ export default function ProcessWalkthrough({
         initial={{ opacity: 0, y: -24 }}
         animate={{ opacity: 0.9, y: 0 }}
         transition={{ delay: 0.55, duration: 0.8, ease: 'easeOut' }}
-        placementClass=" pointer-events-none absolute top-[50%] left-[5%] -translate-x-1/2 -translate-y-1/2 w-[640px] h-[380px]"
+        placementClass=" pointer-events-none absolute top-[50%] left-[90%] -translate-x-1/2 -translate-y-1/2 w-[640px] h-[380px]"
         className="bg-accent/30 blur-[140px] rounded-[58%]"
+      />
+
+      <GlowLayer
+        logoDone={logoDone}
+        initial={{ opacity: 0, y: -24 }}
+        animate={{ opacity: 0.9, y: 0 }}
+        transition={{ delay: 0.55, duration: 0.8, ease: 'easeOut' }}
+        placementClass=" pointer-events-none absolute top-[75%] left-[10%] -translate-x-1/2 -translate-y-1/2 w-[640px] h-[380px]"
+        className="bg-accent/30 blur-[140px] rounded-[58%]"
+      />
+
+      <GlowLayer
+        logoDone={logoDone}
+        initial={{ opacity: 0, y: -24 }}
+        animate={{ opacity: 0.9, y: 0 }}
+        transition={{ delay: 0.55, duration: 0.8, ease: 'easeOut' }}
+        placementClass=" pointer-events-none absolute top-[15%] left-[5%] -translate-x-1/2 -translate-y-1/2 w-[640px] h-[380px]"
+        className="bg-accent/35 blur-[140px] rounded-[58%]"
       />
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 px-4 lg:px-6">

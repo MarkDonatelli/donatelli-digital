@@ -11,14 +11,6 @@ export default function WhatYouGetSection({ logoDone }: { logoDone: boolean }) {
       transition={{ delay: 0.45, duration: 0.7, ease: 'easeOut' }}
       className="relative w-full section-space bg-[#f8faf9]"
     >
-      <GlowLayer
-        logoDone={logoDone}
-        initial={{ opacity: 0, y: -24 }}
-        animate={{ opacity: 0.9, y: 0 }}
-        transition={{ delay: 0.55, duration: 0.8, ease: 'easeOut' }}
-        placementClass="pointer-events-none absolute -bottom-[180px] left-[15%] -translate-x-1/2 w-[640px] h-[380px]"
-        className="bg-accent/25 blur-[140px] rounded-[58%]"
-      />
       <div className="max-w-6xl mx-auto px-6 space-y-16">
         <div className="max-w-3xl">
           <h2 className="font-display text-[clamp(2.1rem,4vw,2.8rem)] leading-tight tracking-[-0.01em] mb-5">
