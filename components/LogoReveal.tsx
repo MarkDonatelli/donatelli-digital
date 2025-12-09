@@ -89,8 +89,7 @@ export default function LogoReveal() {
         }}
         className="relative z-10 px-4 text-center font-light max-w-xl mt-9 text-[17px] leading-relaxed text-secondary"
       >
-        Modern digital identity and web execution for business that want
-        clarity.
+        Web execution that feels clear, modern, and credible.
       </motion.h2>
 
       {/* HOLD TIME BEFORE FADE */}
