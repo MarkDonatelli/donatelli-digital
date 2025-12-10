@@ -4,11 +4,18 @@
    BRAND PALETTE — YOUR SINGLE SOURCE OF TRUTH
 --------------------------------------------------- */
 :root {
-  --primary: #f7fafc;
-  --secondary: #4b5563;
-  --tertiary: #0f172a;
-  --accent: #2da6a0;
-  --border: #e2e8f0;
+  --primary: #f8faf9;
+  --secondary: #2d3136;
+  --tertiary: #121417;
+  --accent: #1fc4a7;
+  --accent-strong: #167164;
+  --accent-alt: #6cb8ff;
+  --border: #d7dbde;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', 'Times New Roman', serif;
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-playfair: 'Playfair Display', 'Times New Roman', serif;
 }
 
 /* ---------------------------------------------------
@@ -22,11 +29,16 @@
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-alt: var(--accent-alt);
   --color-border: var(--border);
+  --color-muted: var(--secondary);
 
   /* Fonts */
-  --font-sans: var(--font-jakarta);
-  --font-display: var(--font-spartan);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-playfair: var(--font-playfair);
+  --font-inter: var(--font-inter);
 
   /* Hover states (auto-computed, elegant) */
   --color-primary-hover: color-mix(in srgb, var(--primary), black 4%);
@@ -78,7 +90,7 @@ html {
 }
 
 ::selection {
-  background: rgba(45, 166, 160, 0.16);
+  background: color-mix(in srgb, var(--accent), transparent 82%);
   color: var(--tertiary);
 }
 
@@ -87,4 +99,47 @@ button,
 a,
 [role='button'] {
   -webkit-tap-highlight-color: transparent;
+}
+
+.font-playfair {
+  font-family: var(--font-playfair);
+}
+
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+@keyframes pulse-slow {
+  0% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 12s ease-in-out infinite;
+}
+
+.bg-grid-light {
+  background-color: var(--primary);
+  background-image: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--tertiary), transparent 94%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--tertiary), transparent 94%) 1px,
+      transparent 1px
+    );
+  background-size: 48px 48px;
+  background-position: center;
 }
