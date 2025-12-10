@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import GlowLayer from '../GlowLayer';
 
@@ -72,10 +73,6 @@ export default function ProcessWalkthrough({
   logoDone: boolean;
 }) {
   const ref = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start center', 'end center']
-  });
 
   return (
     <section
@@ -141,22 +138,20 @@ export default function ProcessWalkthrough({
 
         <div className="space-y-10 lg:space-y-[6vh]">
           {steps.map((step, i) => {
-            const start = i / steps.length;
-            const end = (i + 1) / steps.length;
-
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const translateY = useTransform(
-              scrollYProgress,
-              [start, end],
-              [70, 0]
-            );
+            const cardRef = useRef(null);
+            const cardInView = useInView(cardRef, {
+              once: true,
+              margin: '-20% 0px'
+            });
 
             return (
               <motion.div
                 key={step.title}
-                style={{ opacity, y: translateY }}
+                ref={cardRef}
+                initial={{ opacity: 0, y: 90 }}
+                animate={cardInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: i * 0.06 }}
+                style={{ willChange: 'opacity, transform' }}
                 className="rounded-xl relative z-5 border border-neutral-200 shadow-lg bg-white p-6 md:p-7 lg:p-10"
               >
                 <h3 className="font-semibold text-[1.2rem] md:text-[1.35rem] mb-3 text-[#121417]">

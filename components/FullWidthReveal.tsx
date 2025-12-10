@@ -1,30 +1,26 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 export default function FullWidthReveal() {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start 90%', 'end 60%']
+  const inView = useInView(ref, {
+    once: true,
+    margin: '-10% 0px'
   });
-
-  const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
-  const blur = useTransform(scrollYProgress, [0, 1], [16, 0]);
-
-  const blurFilter = useTransform(blur, (val) => `blur(${val}px)`);
 
   return (
     <section ref={ref} className="relative w-screen overflow-hidden">
       <motion.div
-        style={{
-          scale,
-          opacity,
-          filter: blurFilter
+        initial={{ opacity: 0, scale: 0.9, filter: 'blur(12px)' }}
+        animate={inView ? { opacity: 1, scale: 1, filter: 'blur(0px)' } : {}}
+        transition={{
+          duration: 0.85,
+          ease: 'easeOut'
         }}
+        style={{ willChange: 'opacity, transform, filter' }}
         className="w-screen h-[60vh] bg-cover bg-center bg-no-repeat relative"
       >
         <div

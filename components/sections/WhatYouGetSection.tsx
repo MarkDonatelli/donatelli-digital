@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import GlowLayer from '../GlowLayer';
 
 export default function WhatYouGetSection({ logoDone }: { logoDone: boolean }) {
   return (
