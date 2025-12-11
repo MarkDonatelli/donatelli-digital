@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import HeroDesign from '@/components/sections/HeroDesign';
 import ManifestoSection from '@/components/sections/ManifestoSection';
 import MarqueeStrip from '@/components/sections/MarqueeStrip';
@@ -8,6 +10,7 @@ import DeliverablesSection from '@/components/sections/DeliverablesSection';
 import WorkSection from '@/components/sections/WorkSection';
 import FooterCta from '@/components/sections/FooterCta';
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
+import ContactModal from '@/components/ContactModal';
 
 const projects = [
   {
@@ -43,9 +46,11 @@ const marqueeItems = [
 ];
 
 export default function Home() {
+  const [contactOpen, setContactOpen] = useState(false);
+
   return (
     <div className="relative bg-grid-light text-tertiary overflow-hidden font-inter">
-      <HeroDesign />
+      <HeroDesign onOpenContact={() => setContactOpen(true)} />
       <ManifestoSection />
       <MarqueeStrip items={marqueeItems} />
       <ProcessSection />
@@ -53,6 +58,7 @@ export default function Home() {
       <WorkSection projects={projects} />
       <TestimonialsCarousel />
       <FooterCta />
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 }

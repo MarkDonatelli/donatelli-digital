@@ -2,14 +2,18 @@
 
 import { Icon } from '@iconify/react';
 
-export default function HeroDesign() {
+export default function HeroDesign({
+  onOpenContact
+}: {
+  onOpenContact: () => void;
+}) {
   return (
     <section className="relative pb-32 md:pb-48">
-      <div className="absolute top-[-220px] right-[-220px] w-[680px] h-[680px] bg-accent/22 rounded-full blur-[120px]" />
+      <div className="absolute top-[-220px] right-[-220px] h-[500px] w-[500px] md:w-[680px] md:h-[680px] bg-accent/22 rounded-full blur-[120px]" />
       <div className="absolute bottom-[-260px] -left-60 w-[620px] h-[620px] bg-accent-alt/22 rounded-full blur-[120px]" />
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-12 pt-4 md:pt-8">
-        <p className="uppercase text-lg md:text-xl font-medium tracking-tight">
+        <p className="uppercase font-inter text-lg md:text-xl font-medium tracking-tight">
           Donatelli Digital
         </p>
       </div>
@@ -53,12 +57,13 @@ export default function HeroDesign() {
             <Icon icon="lucide:arrow-right" width={18} />
           </a>
 
-          <a
-            href="#process"
+          <button
+            type="button"
+            onClick={onOpenContact}
             className="px-8 py-4 border border-tertiary text-tertiary bg-white font-medium tracking-wide inline-flex items-center gap-2 hover:border-accent hover:text-accent transition"
           >
-            How We Work
-          </a>
+            Schedule Discovery
+          </button>
         </div>
       </div>
     </section>
