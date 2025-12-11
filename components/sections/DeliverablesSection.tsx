@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react';
 
 export default function DeliverablesSection() {
   return (
-    <section className="bg-tertiary text-white py-24 md:py-32 px-6 md:px-12">
+    <section className="bg-[#D7DBDE]  py-24 md:py-32 px-6 md:px-12">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
         {/* LEFT SIDE */}
         <div className="sticky top-32">
@@ -17,14 +17,14 @@ export default function DeliverablesSection() {
             <br />a website.
           </h2>
 
-          <p className="text-lg text-border/85 max-w-sm leading-relaxed">
+          <p className="text-lg  max-w-sm leading-relaxed">
             We build brand-aligned digital experiences that create clarity,
             confidence, and measurable results.
           </p>
 
           <a
             href="#contact"
-            className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-white border-b border-white/60 hover:text-accent hover:border-accent transition-colors"
+            className="mt-10 inline-flex items-center gap-2 text-sm font-semibold border-b border-tertiary hover:text-accent hover:border-accent transition-colors"
           >
             Start a conversation
             <Icon icon="lucide:arrow-right" width={18} />
