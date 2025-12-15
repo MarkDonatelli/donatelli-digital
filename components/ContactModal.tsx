@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getLenisInstance } from './SmoothScroll';
 
 /* ----------------------------------------
    ZOD SCHEMA
@@ -36,9 +37,6 @@ export default function ContactModal({
   open: boolean;
   onClose: () => void;
 }) {
-  /* ----------------------------------------
-     RHF + ZOD
-  ---------------------------------------- */
   const {
     register,
     handleSubmit,
@@ -58,44 +56,38 @@ export default function ContactModal({
 
   const selectedServices = watch('services');
   const selectedBudget = watch('budget');
+  const [success, setSuccess] = useState(false);
 
   /* ----------------------------------------
      BODY SCROLL LOCK
   ---------------------------------------- */
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : 'auto';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, [open]);
 
   /* ----------------------------------------
-     SERVICE TOGGLE
+     PAUSE / RESUME LENIS
   ---------------------------------------- */
-  const toggleService = (s: string) => {
-    const current = watch('services');
-    if (current.includes(s)) {
-      setValue(
-        'services',
-        current.filter((i) => i !== s)
-      );
+  useEffect(() => {
+    const lenis = getLenisInstance();
+    if (!lenis) return;
+
+    if (open) {
+      lenis.stop(); // CRITICAL
     } else {
-      setValue('services', [...current, s]);
+      lenis.start();
     }
-  };
+  }, [open]);
 
   /* ----------------------------------------
-     SUBMIT HANDLER
+     SUBMIT
   ---------------------------------------- */
-  const onSubmit = async (data: FormValues) => {
-    try {
-      // await submitToAirtable(data);
-      // await sendEmail(data);
-
-      setSuccess(true);
-    } catch (err) {
-      console.error(err);
-    }
+  const onSubmit = async () => {
+    setSuccess(true);
   };
-
-  const [success, setSuccess] = useState(false);
 
   return (
     <AnimatePresence>
@@ -104,17 +96,26 @@ export default function ContactModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-tertiary/40 backdrop-blur-sm flex items-start justify-center overflow-auto py-20"
+          className="fixed inset-0 z-50 bg-tertiary/40 backdrop-blur-sm flex items-start justify-center px-4 py-8"
         >
-          {/* PANEL */}
+          {/* MODAL PANEL (THIS SCROLLS) */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 40 }}
             transition={{ duration: 0.35 }}
-            className="bg-white max-w-3xl w-full mx-6 rounded-xl p-10 relative"
+            data-lenis-prevent
+            className="
+     bg-white max-w-3xl w-full mx-auto rounded-xl relative
+              max-h-[calc(100vh-2rem)]
+              md:max-h-[calc(100vh-4rem)]
+              overflow-y-auto
+              overscroll-contain
+              p-8 md:p-10
+  "
+            style={{ WebkitOverflowScrolling: 'touch' }}
           >
-            {/* CLOSE BUTTON */}
+            {/* CLOSE */}
             <button
               onClick={onClose}
               className="absolute top-6 right-6 text-neutral-400 hover:text-tertiary transition"
@@ -130,18 +131,10 @@ export default function ContactModal({
               Tell us about your project. We respond within 24 hours.
             </p>
 
+            {/* SUCCESS */}
             {success && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-10"
-              >
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                >
+              <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center text-center p-10">
+                <div>
                   <Icon
                     icon="lucide:check-circle"
                     width={48}
@@ -150,7 +143,7 @@ export default function ContactModal({
                   <h3 className="font-playfair text-3xl font-semibold text-tertiary mb-3">
                     Message Sent
                   </h3>
-                  <p className="text-neutral-600 max-w-sm mx-auto leading-relaxed">
+                  <p className="text-neutral-600 max-w-sm mx-auto">
                     Thanks for reaching out. We&apos;ll get back to you within
                     24 hours.
                   </p>
@@ -164,14 +157,14 @@ export default function ContactModal({
                   >
                     Close
                   </button>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             )}
 
             {/* FORM */}
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="mt-10 space-y-10"
+              className="mt-10 space-y-10 pb-4"
             >
               {/* NAME + EMAIL */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -181,7 +174,7 @@ export default function ContactModal({
                   </label>
                   <input
                     {...register('name')}
-                    className="mt-1 w-full border-b border-neutral-300 py-2 text-neutral-800 focus:outline-none focus:border-tertiary"
+                    className="mt-1 w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-tertiary"
                   />
                   {errors.name && (
                     <p className="text-red-500 text-xs mt-1">
@@ -196,7 +189,7 @@ export default function ContactModal({
                   </label>
                   <input
                     {...register('email')}
-                    className="mt-1 w-full border-b border-neutral-300 py-2 text-neutral-800 focus:outline-none focus:border-tertiary"
+                    className="mt-1 w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-tertiary"
                   />
                   {errors.email && (
                     <p className="text-red-500 text-xs mt-1">
@@ -211,7 +204,6 @@ export default function ContactModal({
                 <label className="text-xs uppercase tracking-wider text-neutral-500">
                   I&apos;m Interested In…
                 </label>
-
                 <div className="flex flex-wrap gap-3 mt-3">
                   {servicesList.map((s) => (
                     <button
@@ -219,24 +211,24 @@ export default function ContactModal({
                       type="button"
                       onClick={() => {
                         const current = selectedServices || [];
-                        const updated = current.includes(s)
-                          ? current.filter((i) => i !== s)
-                          : [...current, s];
-
-                        setValue('services', updated, { shouldValidate: true });
+                        setValue(
+                          'services',
+                          current.includes(s)
+                            ? current.filter((i) => i !== s)
+                            : [...current, s],
+                          { shouldValidate: true }
+                        );
                       }}
-                      className={`px-4 py-1.5 border rounded-full text-sm transition
-          ${
-            (selectedServices || []).includes(s)
-              ? 'bg-tertiary text-white border-tertiary'
-              : 'border-neutral-300 text-neutral-700 hover:border-tertiary'
-          }`}
+                      className={`px-4 py-1.5 border rounded-full text-sm transition ${
+                        selectedServices?.includes(s)
+                          ? 'bg-tertiary text-white border-tertiary'
+                          : 'border-neutral-300 hover:border-tertiary'
+                      }`}
                     >
                       {s}
                     </button>
                   ))}
                 </div>
-
                 {errors.services && (
                   <p className="text-red-500 text-xs mt-1">
                     {errors.services.message}
@@ -249,30 +241,26 @@ export default function ContactModal({
                 <label className="text-xs uppercase tracking-wider text-neutral-500">
                   Project Budget (USD)
                 </label>
-
                 <div className="flex flex-wrap gap-3 mt-3">
                   {budgetsList.map((b) => (
                     <button
                       key={b}
                       type="button"
-                      onClick={() => {
-                        const current = selectedBudget;
-                        setValue('budget', current === b ? '' : b, {
+                      onClick={() =>
+                        setValue('budget', selectedBudget === b ? '' : b, {
                           shouldValidate: true
-                        });
-                      }}
-                      className={`px-4 py-1.5 border rounded-full text-sm transition 
-          ${
-            selectedBudget === b
-              ? 'bg-tertiary text-white border-tertiary'
-              : 'border-neutral-300 text-neutral-700 hover:border-tertiary'
-          }`}
+                        })
+                      }
+                      className={`px-4 py-1.5 border rounded-full text-sm transition ${
+                        selectedBudget === b
+                          ? 'bg-tertiary text-white border-tertiary'
+                          : 'border-neutral-300 hover:border-tertiary'
+                      }`}
                     >
                       {b}
                     </button>
                   ))}
                 </div>
-
                 {errors.budget && (
                   <p className="text-red-500 text-xs mt-1">
                     {errors.budget.message}
@@ -287,8 +275,7 @@ export default function ContactModal({
                 </label>
                 <textarea
                   {...register('details')}
-                  placeholder="Tell us about your goals, timeline, and any specific requirements…"
-                  className="mt-3 w-full border-b border-neutral-300 py-2 text-neutral-800 h-24 focus:outline-none focus:border-tertiary"
+                  className="mt-3 w-full border-b border-neutral-300 py-2 h-24 focus:outline-none focus:border-tertiary"
                 />
                 {errors.details && (
                   <p className="text-red-500 text-xs mt-1">
