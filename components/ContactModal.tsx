@@ -45,6 +45,7 @@ export default function ContactModal({
     formState: { errors }
   } = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
+    shouldFocusError: false,
     defaultValues: {
       name: '',
       email: '',
@@ -57,6 +58,7 @@ export default function ContactModal({
   const selectedServices = watch('services');
   const selectedBudget = watch('budget');
   const [success, setSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   /* ----------------------------------------
      BODY SCROLL LOCK
@@ -87,6 +89,7 @@ export default function ContactModal({
   ---------------------------------------- */
   const onSubmit = async (data: FormValues) => {
     try {
+      setSubmitting(true);
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,6 +103,8 @@ export default function ContactModal({
       setSuccess(true);
     } catch (err) {
       console.error(err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -123,6 +128,7 @@ export default function ContactModal({
      bg-white max-w-3xl w-full mx-auto rounded-xl relative
               max-h-[calc(100vh-2rem)]
               md:max-h-[calc(100vh-4rem)]
+              min-h-[400px]
               overflow-y-auto
               overscroll-contain
               p-8 md:p-10
@@ -176,139 +182,151 @@ export default function ContactModal({
             )}
 
             {/* FORM */}
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="mt-10 space-y-10 pb-4"
-            >
-              {/* NAME + EMAIL */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {!success && (
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="mt-10 space-y-10 pb-4"
+              >
+                {/* NAME + EMAIL */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                  <div>
+                    <label className="text-xs uppercase tracking-wider text-neutral-500">
+                      Name
+                    </label>
+                    <input
+                      {...register('name')}
+                      className="mt-1 w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-tertiary"
+                    />
+                    {errors.name && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.name.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-xs uppercase tracking-wider text-neutral-500">
+                      Email Address
+                    </label>
+                    <input
+                      {...register('email')}
+                      className="mt-1 w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-tertiary"
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-xs mt-1">
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* SERVICES */}
                 <div>
                   <label className="text-xs uppercase tracking-wider text-neutral-500">
-                    Name
+                    I&apos;m Interested In…
                   </label>
-                  <input
-                    {...register('name')}
-                    className="mt-1 w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-tertiary"
-                  />
-                  {errors.name && (
+                  <div className="flex flex-wrap gap-3 mt-3">
+                    {servicesList.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => {
+                          const current = selectedServices || [];
+                          setValue(
+                            'services',
+                            current.includes(s)
+                              ? current.filter((i) => i !== s)
+                              : [...current, s],
+                            { shouldValidate: true }
+                          );
+                        }}
+                        className={`px-4 py-1.5 border rounded-full text-sm transition ${
+                          selectedServices?.includes(s)
+                            ? 'bg-tertiary text-white border-tertiary'
+                            : 'border-neutral-300 hover:border-tertiary'
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                  {errors.services && (
                     <p className="text-red-500 text-xs mt-1">
-                      {errors.name.message}
+                      {errors.services.message}
                     </p>
                   )}
                 </div>
 
+                {/* BUDGET */}
                 <div>
                   <label className="text-xs uppercase tracking-wider text-neutral-500">
-                    Email Address
+                    Project Budget (USD)
                   </label>
-                  <input
-                    {...register('email')}
-                    className="mt-1 w-full border-b border-neutral-300 py-2 focus:outline-none focus:border-tertiary"
-                  />
-                  {errors.email && (
+                  <div className="flex flex-wrap gap-3 mt-3">
+                    {budgetsList.map((b) => (
+                      <button
+                        key={b}
+                        type="button"
+                        onClick={() =>
+                          setValue('budget', selectedBudget === b ? '' : b, {
+                            shouldValidate: true
+                          })
+                        }
+                        className={`px-4 py-1.5 border rounded-full text-sm transition ${
+                          selectedBudget === b
+                            ? 'bg-tertiary text-white border-tertiary'
+                            : 'border-neutral-300 hover:border-tertiary'
+                        }`}
+                      >
+                        {b}
+                      </button>
+                    ))}
+                  </div>
+                  {errors.budget && (
                     <p className="text-red-500 text-xs mt-1">
-                      {errors.email.message}
+                      {errors.budget.message}
                     </p>
                   )}
                 </div>
-              </div>
 
-              {/* SERVICES */}
-              <div>
-                <label className="text-xs uppercase tracking-wider text-neutral-500">
-                  I&apos;m Interested In…
-                </label>
-                <div className="flex flex-wrap gap-3 mt-3">
-                  {servicesList.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => {
-                        const current = selectedServices || [];
-                        setValue(
-                          'services',
-                          current.includes(s)
-                            ? current.filter((i) => i !== s)
-                            : [...current, s],
-                          { shouldValidate: true }
-                        );
-                      }}
-                      className={`px-4 py-1.5 border rounded-full text-sm transition ${
-                        selectedServices?.includes(s)
-                          ? 'bg-tertiary text-white border-tertiary'
-                          : 'border-neutral-300 hover:border-tertiary'
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  ))}
+                {/* DETAILS */}
+                <div>
+                  <label className="text-xs uppercase tracking-wider text-neutral-500">
+                    Project Details
+                  </label>
+                  <textarea
+                    {...register('details')}
+                    className="mt-3 w-full border-b border-neutral-300 py-2 h-24 focus:outline-none focus:border-tertiary"
+                  />
+                  {errors.details && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.details.message}
+                    </p>
+                  )}
                 </div>
-                {errors.services && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.services.message}
-                  </p>
-                )}
-              </div>
 
-              {/* BUDGET */}
-              <div>
-                <label className="text-xs uppercase tracking-wider text-neutral-500">
-                  Project Budget (USD)
-                </label>
-                <div className="flex flex-wrap gap-3 mt-3">
-                  {budgetsList.map((b) => (
-                    <button
-                      key={b}
-                      type="button"
-                      onClick={() =>
-                        setValue('budget', selectedBudget === b ? '' : b, {
-                          shouldValidate: true
-                        })
-                      }
-                      className={`px-4 py-1.5 border rounded-full text-sm transition ${
-                        selectedBudget === b
-                          ? 'bg-tertiary text-white border-tertiary'
-                          : 'border-neutral-300 hover:border-tertiary'
-                      }`}
-                    >
-                      {b}
-                    </button>
-                  ))}
+                {/* SUBMIT */}
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="bg-tertiary text-white px-8 py-3 rounded-md flex items-center gap-2 hover:bg-accent transition disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {submitting ? (
+                      <>
+                        <span className="h-4 w-4 border-2 border-white/60 border-t-white rounded-full animate-spin" />
+                        Sending…
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Icon icon="lucide:send" width={18} />
+                      </>
+                    )}
+                  </button>
                 </div>
-                {errors.budget && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.budget.message}
-                  </p>
-                )}
-              </div>
-
-              {/* DETAILS */}
-              <div>
-                <label className="text-xs uppercase tracking-wider text-neutral-500">
-                  Project Details
-                </label>
-                <textarea
-                  {...register('details')}
-                  className="mt-3 w-full border-b border-neutral-300 py-2 h-24 focus:outline-none focus:border-tertiary"
-                />
-                {errors.details && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.details.message}
-                  </p>
-                )}
-              </div>
-
-              {/* SUBMIT */}
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="bg-tertiary text-white px-8 py-3 rounded-md flex items-center gap-2 hover:bg-accent transition"
-                >
-                  Send Message
-                  <Icon icon="lucide:send" width={18} />
-                </button>
-              </div>
-            </form>
+              </form>
+            )}
           </motion.div>
         </motion.div>
       )}
