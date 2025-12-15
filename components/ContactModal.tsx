@@ -85,8 +85,22 @@ export default function ContactModal({
   /* ----------------------------------------
      SUBMIT
   ---------------------------------------- */
-  const onSubmit = async () => {
-    setSuccess(true);
+  const onSubmit = async (data: FormValues) => {
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (!res.ok) {
+        throw new Error('Submission failed');
+      }
+
+      setSuccess(true);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
