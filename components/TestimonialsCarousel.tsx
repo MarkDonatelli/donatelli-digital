@@ -6,24 +6,10 @@ import { useState } from 'react';
 const testimonials = [
   {
     quote:
-      'Hiring Mark was one of the best decisions we made this year. He took scattered ideas, clarified them, and delivered something that actually moves people to act.',
-    author: 'Sarah Daniels',
-    role: 'Marketing Director, Orchard Lane',
+      'The new website completely elevated our online presence. It made it easier for venues and private clients to understand what we offer, and we started getting better inquiries almost immediately. Since launching, our reach has grown and we’ve booked new gigs directly through the site. The process was smooth from start to finish, and everything was delivered exactly as promised.',
+    author: 'Turn It Up!',
+    role: 'Band Manager',
     color: '#D9F0E7'
-  },
-  {
-    quote:
-      'We finally look like the company we actually are. The site feels polished, structured, and we’ve already seen performance lift since launch.',
-    author: 'Chris Hoffman',
-    role: 'Co-Founder, Northbend Labs',
-    color: '#F4D9EF'
-  },
-  {
-    quote:
-      'The clarity, pace, and communication were unmatched. Zero friction from kickoff to delivery.',
-    author: 'Alex Porter',
-    role: 'Founder, AP Advisory',
-    color: '#D8E5FA'
   }
 ];
 
@@ -67,7 +53,7 @@ export default function TestimonialsCarousel() {
           </div>
         </div>
 
-        <div className="relative h-[380px]">
+        <div className="relative">
           <AnimatePresence mode="wait">
             <motion.div
               key={active.quote}
@@ -76,9 +62,9 @@ export default function TestimonialsCarousel() {
               exit={{ opacity: 0, x: -60 }}
               transition={{ duration: 0.55, ease: 'easeOut' }}
               style={{ backgroundColor: active.color }}
-              className="absolute inset-0 p-[clamp(2rem,4vw,3rem)] flex flex-col justify-between rounded-sm shadow-sm"
+              className="p-8 flex flex-col justify-between rounded-sm shadow-sm"
             >
-              <p className="text-[clamp(1.55rem,2.6vw,2.15rem)] leading-[1.26] font-light tracking-tight max-w-4xl">
+              <p className="text-[clamp(1.55rem,2.6vw,1.75rem)] leading-[1.26] font-light tracking-tight max-w-4xl">
                 {active.quote}
               </p>
 

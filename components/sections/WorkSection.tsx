@@ -7,6 +7,7 @@ import { Icon } from '@iconify/react';
 type Project = {
   title: string;
   img: string;
+  link?: string;
   tags: string[];
   mt?: string;
 };
@@ -26,7 +27,9 @@ export default function WorkSection({ projects }: { projects: Project[] }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32">
           {projects.map((proj, i) => (
-            <div
+            <a
+              href={proj.link}
+              target="_blank"
               key={i}
               className={`group cursor-pointer block ${proj.mt || ''}`}
             >
@@ -67,7 +70,7 @@ export default function WorkSection({ projects }: { projects: Project[] }) {
                   />
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </section>

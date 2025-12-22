@@ -1,6 +1,10 @@
 'use client';
 
-export default function FooterCta() {
+export default function FooterCta({
+  onOpenContact
+}: {
+  onOpenContact: () => void;
+}) {
   return (
     <footer className="bg-primary pt-32 pb-20 px-6 md:px-12 border-t border-border/60">
       <div className="max-w-7xl mx-auto text-center mb-24 text-tertiary">
@@ -9,7 +13,7 @@ export default function FooterCta() {
           <span className="relative ml-3 inline-block">
             confident?
             <svg
-              className="absolute bottom-[-4px] left-0 w-full h-2"
+              className="absolute -bottom-1 left-0 w-full h-2"
               viewBox="0 0 200 10"
             >
               <path
@@ -26,9 +30,12 @@ export default function FooterCta() {
           market-ready.
         </p>
 
-        <a className="font-inter mt-12 inline-block font-medium px-10 py-4 bg-tertiary text-white tracking-wide border border-tertiary hover:bg-white hover:text-tertiary transition-colors duration-300">
+        <button
+          onClick={onOpenContact}
+          className="font-inter mt-12 inline-block font-medium px-10 py-4 bg-tertiary text-white tracking-wide border border-tertiary hover:bg-white hover:text-tertiary transition-colors duration-300"
+        >
           Schedule Consultation
-        </a>
+        </button>
 
         <p className="text-xs text-muted/50 mt-4">
           No retainers. Straightforward pricing. Clear deliverables.
@@ -44,7 +51,7 @@ export default function FooterCta() {
             © {new Date().getFullYear()} Donatelli Digital
           </p>
         </div>
-
+        {/* 
         <div className="flex gap-8 mt-6 md:mt-0">
           {['Instagram', 'LinkedIn', 'Twitter'].map((link) => (
             <a
@@ -54,7 +61,7 @@ export default function FooterCta() {
               {link}
             </a>
           ))}
-        </div>
+        </div> */}
       </div>
     </footer>
   );

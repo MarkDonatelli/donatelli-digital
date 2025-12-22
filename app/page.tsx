@@ -14,9 +14,10 @@ import ContactModal from '@/components/ContactModal';
 
 const projects = [
   {
-    title: 'Venture North',
-    img: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop',
-    tags: ['Finance', 'Strategy']
+    link: 'https://www.turnitupcoverband.com',
+    title: 'Turn It Up!',
+    img: 'images/tiu-home.webp',
+    tags: ['Design', 'Development']
   },
   {
     title: 'Lumina Architects',
@@ -57,7 +58,7 @@ export default function Home() {
       <DeliverablesSection />
       <WorkSection projects={projects} />
       <TestimonialsCarousel />
-      <FooterCta />
+      <FooterCta onOpenContact={() => setContactOpen(true)} />
       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
