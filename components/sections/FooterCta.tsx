@@ -44,9 +44,7 @@ export default function FooterCta({
 
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:justify-between border-t border-tertiary/10 pt-10 text-sm text-tertiary">
         <div>
-          <span className="font-inter text-xl font-semibold tracking-wide">
-            DONATELLI DIGITAL
-          </span>
+          <img width="150" height="47" src="/images/logo.svg" />
           <p className="text-xs text-muted/50 mt-2">
             © {new Date().getFullYear()} Donatelli Digital
           </p>

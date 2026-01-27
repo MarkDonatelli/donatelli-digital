@@ -13,9 +13,7 @@ export default function HeroDesign({
       <div className="absolute bottom-[-260px] -left-60 w-[620px] h-[620px] bg-accent-alt/22 rounded-full blur-[120px]" />
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-12 pt-4 md:pt-8">
-        <p className="uppercase font-inter text-lg md:text-xl font-medium tracking-tight">
-          Donatelli Digital
-        </p>
+        <img width="200" height="73" src="/images/logo.svg" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 md:px-12 pt-36 md:pt-48">
