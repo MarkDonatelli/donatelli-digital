@@ -3,12 +3,16 @@
 
 import React from 'react';
 import { Icon } from '@iconify/react';
+import Link from 'next/link';
 
 type Project = {
   title: string;
+  subtitle?: string;
   img: string;
-  link?: string;
+  link: string;
   tags: string[];
+  external?: boolean;
+  badgeLabel?: string;
   mt?: string;
 };
 
@@ -27,9 +31,10 @@ export default function WorkSection({ projects }: { projects: Project[] }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-32">
           {projects.map((proj, i) => (
-            <a
+            <Link
               href={proj.link}
-              target="_blank"
+              target={proj.external ? '_blank' : undefined}
+              rel={proj.external ? 'noopener noreferrer' : undefined}
               key={i}
               className={`group cursor-pointer block ${proj.mt || ''}`}
             >
@@ -40,9 +45,11 @@ export default function WorkSection({ projects }: { projects: Project[] }) {
                   alt={proj.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out grayscale group-hover:grayscale-0"
                 />
-                <div className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur text-tertiary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
-                  Live Site
-                </div>
+                {proj.badgeLabel ? (
+                  <div className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur text-tertiary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
+                    {proj.badgeLabel}
+                  </div>
+                ) : null}
               </div>
 
               <div className="flex justify-between items-end border-b border-tertiary/10 pb-4 group-hover:border-accent transition-colors">
@@ -50,6 +57,11 @@ export default function WorkSection({ projects }: { projects: Project[] }) {
                   <h3 className="text-3xl font-display font-medium text-tertiary mb-2">
                     {proj.title}
                   </h3>
+                  {proj.subtitle ? (
+                    <p className="text-sm text-muted/70 mb-3">
+                      {proj.subtitle}
+                    </p>
+                  ) : null}
                   <div className="flex gap-3">
                     {proj.tags.map((tag) => (
                       <span
@@ -70,7 +82,7 @@ export default function WorkSection({ projects }: { projects: Project[] }) {
                   />
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

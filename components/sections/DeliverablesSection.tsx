@@ -2,7 +2,11 @@
 
 import { Icon } from '@iconify/react';
 
-export default function DeliverablesSection() {
+export default function DeliverablesSection({
+  onOpenContact
+}: {
+  onOpenContact: () => void;
+}) {
   return (
     <section className="bg-[#D7DBDE]  py-24 md:py-32 px-6 md:px-12">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
@@ -22,13 +26,13 @@ export default function DeliverablesSection() {
             confidence, and measurable results.
           </p>
 
-          <a
-            href="#contact"
+          <button
+            onClick={onOpenContact}
             className="mt-10 inline-flex items-center gap-2 text-sm font-semibold border-b border-tertiary hover:text-accent hover:border-accent transition-colors"
           >
             Start a conversation
             <Icon icon="lucide:arrow-right" width={18} />
-          </a>
+          </button>
         </div>
 
         {/* RIGHT SIDE */}

@@ -14,26 +14,35 @@ import ContactModal from '@/components/ContactModal';
 
 const projects = [
   {
-    link: 'https://www.turnitupcoverband.com',
-    title: 'Turn It Up!',
-    img: 'images/tiu-home.webp',
-    tags: ['Design', 'Development']
+    link: '/work/lumina-architects',
+    title: 'Lumina Architects',
+    subtitle: 'Brand Identity + Website Concept',
+    img: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2727&auto=format&fit=crop',
+    tags: ['Concept', 'Identity', 'Front-End']
   },
   {
-    title: 'Lumina Architects',
-    img: 'https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2727&auto=format&fit=crop',
-    tags: ['Design', 'Identity'],
+    link: 'https://www.turnitupcoverband.com',
+    title: 'Turn It Up!',
+    subtitle: 'Web Design + Development',
+    img: 'images/tiu-home.webp',
+    tags: ['Client', 'Design', 'Development'],
+    external: true,
+    badgeLabel: 'Live Site',
     mt: 'md:mt-32'
   },
   {
+    link: '/work/aero-systems',
     title: 'Aero Systems',
+    subtitle: 'SaaS Website Concept',
     img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2864&auto=format&fit=crop',
-    tags: ['SaaS', 'Product']
+    tags: ['Concept', 'SaaS', 'Product']
   },
   {
+    link: '/work/kanso-living',
     title: 'Kanso Living',
+    subtitle: 'Lifestyle Commerce Concept',
     img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop',
-    tags: ['E-Commerce', 'Brand'],
+    tags: ['Concept', 'E-Commerce', 'Brand'],
     mt: 'md:mt-32'
   }
 ];
@@ -55,7 +64,7 @@ export default function Home() {
       <ManifestoSection />
       <MarqueeStrip items={marqueeItems} />
       <ProcessSection />
-      <DeliverablesSection />
+      <DeliverablesSection onOpenContact={() => setContactOpen(true)} />
       <WorkSection projects={projects} />
       <TestimonialsCarousel />
       <FooterCta onOpenContact={() => setContactOpen(true)} />
