@@ -128,6 +128,8 @@ export default function ContactModal({
      bg-white max-w-3xl w-full mx-auto rounded-xl relative
               max-h-[calc(100vh-2rem)]
               md:max-h-[calc(100vh-4rem)]
+              supports-[height:100dvh]:max-h-[calc(100dvh-2rem)]
+              md:supports-[height:100dvh]:max-h-[calc(100dvh-4rem)]
               min-h-[400px]
               overflow-y-auto
               overscroll-contain
