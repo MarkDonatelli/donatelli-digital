@@ -13,7 +13,7 @@ import { getLenisInstance } from './SmoothScroll';
 ---------------------------------------- */
 const FormSchema = z.object({
   name: z.string().min(2, 'Name is required.'),
-  email: z.string().email('Enter a valid email.'),
+  email: z.email('Enter a valid email.'),
   services: z.array(z.string()).min(1, 'Select at least one service.'),
   budget: z.string().min(1, 'Select a budget range.'),
   details: z.string().min(10, 'Tell us a little more about your project.')
